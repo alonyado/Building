@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<title>בניין 57 גליל ים</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
+<script>
+	class Person {
+  		constructor(floor, apt, has_photo, name) {
+    			this.floor = floor;
+    			this.apt = apt;
+    			this.name= name;
+    			this.has_photo=has_photo;
+    			this.binary_photo=0;
+    			this.binary_img_data = '';
+  		}
+	}
+	
+	function new_floor_element(size) {
+		var row_elem = $('<tr></tr>');
+		for (var i=0;i<size;i++) {
+			row_elem.append('<td></td>');
+		}
+		return row_elem
+	}
+	
+	var bld = [];
+	bld.push(new Person(0,1,0, ''));
+	bld.push(new Person(0,2,0, ''));
+	bld.push(new Person(0,3,0, ''));		
+	bld.push(new Person(0,4,0, ''));
+	bld.push(new Person(1,5,0, 'רעות ואלון לניאדו'));
+	bld.push(new Person(1,6,0, ''));
+	bld.push(new Person(1,7,0, 'חן ליפמן'));
+	bld.push(new Person(1,8,0, ''));
+	bld.push(new Person(2,9,0, 'רענן רז'));
+	bld.push(new Person(2,10,0, 'מיטל גל סוויסה ובן רוטשילד'));
+	bld.push(new Person(2,11,0, ''));
+	bld.push(new Person(2,12,0, ''));
+	bld.push(new Person(2,13,0, "דנה ושלומי ג'רסי"));
+	bld.push(new Person(3,14,0, ''));
+	bld.push(new Person(3,15,0, 'יובל עידוד'));
+	bld.push(new Person(3,16,0, ''));
+	bld.push(new Person(3,17,0, ''));
+	bld.push(new Person(3,18,0, ''));
+	bld.push(new Person(4,19,0, 'שלומי'));
+	bld.push(new Person(4,20,0, 'אייל סווירי'));
+	bld.push(new Person(4,21,0, 'מישר'));
+	bld.push(new Person(4,22,0, ''));
+	bld.push(new Person(4,23,0, 'ליאור קומר'));
+	bld.push(new Person(5,24,1, 'דניאל ואמיר שמעונוב'));
+	bld.push(new Person(5,25,0, 'ויקי פטל'));
+	bld.push(new Person(5,26,0, ''));
+	bld.push(new Person(5,27,0, 'אורן ברר'));
+	bld.push(new Person(5,28,0, 'ליאור פלדמן'));
+	bld.push(new Person(6,29,0, ''));
+	bld.push(new Person(6,30,1, 'משפחת אוסדון מאירי'));
+	bld.push(new Person(6,31,0, ''));
+	bld.push(new Person(6,32,0, ''));
+	bld.push(new Person(6,33,1, 'סימי ואביב בן זיקרי'));
+	bld.push(new Person(7,34,0, ''));
+	bld.push(new Person(7,35,0, 'לימור וצח לוי'));
+	bld.push(new Person(7,36,0, ''));
+	bld.push(new Person(7,37,0, 'מיכאל ליטוין'));
+	bld.push(new Person(7,38,0, ''));
+	bld.push(new Person(8,39,0, ''));
+	bld.push(new Person(8,40,0, ''));
+	bld.push(new Person(8,41,1, 'יעל כהן ושמעון הוטניק'));
+	bld.push(new Person(8,42,0, ''));
+	bld.push(new Person(9,43,1, 'מיטל ועודד שפיר'));
+	bld.push(new Person(9,44,0, ''));
+	
+	var legends = ['צפון מערב', 'צפון מזרח', 'מזרח', 'דרום מזרח', 'דרום מערב'];
+	
+	var apt_pos = [];
+	apt_pos.push([3,4,5,1]); //floor 0
+	apt_pos.push([1,3,4,5]); //floor 1
+	apt_pos.push([1,2,3,4,5]); //floor 2
+	apt_pos.push([1,2,3,4,5]); //floor 3
+	apt_pos.push([1,2,3,4,5]); //floor 4
+	apt_pos.push([1,2,3,4,5]); //floor 5
+	apt_pos.push([1,2,3,4,5]); //floor 6
+	apt_pos.push([1,2,3,4,5]); //floor 7
+	apt_pos.push([1,2,4,5]); //floor 8
+	apt_pos.push([1,5]); //floor 9
+	
+	$(document).ready(function () { 
+	var div_main = $('#table_main').find('tbody');
+	var curr_floor = -1;
+	var curr_floor_element = null;
+	var apt_idx_floor = 0;
+	for (var i=bld.length-1;i>=0;i--) {
+		if (bld[i].floor == curr_floor) {
+			
+		}
+		else {
+			//flush curr_floor_element
+			if (curr_floor >=0) {
+				//Add floor info:
+				var childs = curr_floor_element.children();
+				var floor_e = childs[childs.length-1];
+				floor_e.innerHTML = curr_floor.toString();
+				div_main.append(curr_floor_element);
+			}
+			//Add new row:
+			curr_floor_element = new_floor_element(6);
+			curr_floor = bld[i].floor;
+			apt_idx_floor = 0;
+		}
+		//update curr_floor_element
+			var childs = curr_floor_element.children();
+			var pos_legend_idx = apt_pos[curr_floor][apt_pos[curr_floor].length - 1 - apt_idx_floor];
+			var legend_txt = legends[pos_legend_idx-1];
+			var curr_child = childs[pos_legend_idx-1];
+			
+			//var txt = '<p align="center">' + legend_txt+ ' </p>';
+			var txt = '';
+			//txt = txt + '<p align="center">' + 'קומה '+ curr_floor.toString() + ' דירה ' + bld[i].apt.toString() + ' </p>';
+			txt = txt + '<p align="center">דירה ' + bld[i].apt.toString() + ' </p>';
+			
+			if (bld[i].has_photo) {
+				if (bld[i].binary_photo == 0) {
+					txt = txt + '<span><img width="200" height="200" src="images/Floor_' + curr_floor.toString() + '_Apt_' + bld[i].apt.toString() + '.jpeg"></img></span>'
+				}
+				else {
+					
+				}
+			}
+			else {
+				txt = txt + '<span><img width="200" height="200" src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7"></img></span>'
+			}
+			txt = txt + '<p align="center">' + bld[i].name + '</p>'
+			curr_child.innerHTML = txt;
+			
+			apt_idx_floor = apt_idx_floor + 1;
+	}
+	//Flush last floor
+	var childs = curr_floor_element.children();
+	var floor_e = childs[childs.length-1];
+	floor_e.innerHTML = curr_floor.toString();
+	div_main.append(curr_floor_element);
+	//Update Header:
+	var div_header = $('#table_main').find('thead');
+	var th_elemets = div_header.children()[0].children;
+	for (var i=0; i<th_elemets.length-1; i++) {
+		th_elemets[i].innerHTML = legends[i];
+	}
+	});
+</script>
+
+<style>
+.tableFixHead          { overflow-y: auto; height: 800px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+thead th { background-color: white;  color: black; }
+img{border:0;}
+</style>
+</head>
+<body>
+    <div class="container tableFixHead">
+        <table class="table table-bordered" id="table_main">
+            <thead>
+            	<tr>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>קומה</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</body>
+</html>
