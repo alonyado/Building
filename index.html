@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="he">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,7 +34,7 @@
 	bld.push(new Person(0,2,0, ''));
 	bld.push(new Person(0,3,0, ''));		
 	bld.push(new Person(0,4,0, ''));
-	bld.push(new Person(1,5,0, 'רעות ואלון לניאדו'));
+	bld.push(new Person(1,5,1, 'רעות ואלון לניאדו'));
 	bld.push(new Person(1,6,0, ''));
 	bld.push(new Person(1,7,0, 'חן ליפמן'));
 	bld.push(new Person(1,8,0, ''));
@@ -142,7 +142,7 @@
 	//Flush last floor
 	var childs = curr_floor_element.children();
 	var floor_e = childs[childs.length-1];
-	floor_e.innerHTML = curr_floor.toString();
+	floor_e.innerHTML = curr_floor.toString() + '<div id="Buttom_tbl"></div>';
 	div_main.append(curr_floor_element);
 	//Update Header:
 	var div_header = $('#table_main').find('thead');
@@ -150,11 +150,12 @@
 	for (var i=0; i<th_elemets.length-1; i++) {
 		th_elemets[i].innerHTML = legends[i];
 	}
+	
 	});
 </script>
 
 <style>
-.tableFixHead          { overflow-y: auto; height: 800px; }
+.tableFixHead          { overflow-y: auto; height: 100%; }
 .tableFixHead thead th { position: sticky; top: 0; }
 
 /* Just common table stuff. Really. */
@@ -162,6 +163,7 @@ table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 thead th { background-color: white;  color: black; }
 img{border:0;}
+html, body {margin: 0; height: 100%; overflow: hidden}
 </style>
 </head>
 <body>
@@ -179,6 +181,6 @@ img{border:0;}
             </thead>
             <tbody></tbody>
         </table>
-    </div>
+    </div>  
 </body>
 </html>
